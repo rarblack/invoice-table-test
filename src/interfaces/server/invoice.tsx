@@ -1,4 +1,5 @@
 import { Invoice } from "../database/invoice";
+import { ServerResponse } from "./common";
 
 interface InvoiceTimestamps {
     dateIssued: string,
@@ -15,9 +16,14 @@ interface SortParams {
   sortOrder: string | null
 }
 
+interface InvoiceServerResponse extends ServerResponse{
+  data: InvoiceExtended[];
+}
+
 export type { 
   InvoiceTimestamps,
   InvoiceExtended,
-  SortParams
+  SortParams,
+  InvoiceServerResponse
 };
   

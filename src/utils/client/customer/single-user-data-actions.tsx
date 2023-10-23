@@ -1,7 +1,7 @@
-import { Customer } from "@/interfaces/database/customer";
+import { CustomerServerResponse } from "@/interfaces/server/customer";
 
 
-async function getSingleCustomerFromApi (userId: string): Promise<Customer> {
+async function getSingleCustomerFromApi (userId: string): Promise<CustomerServerResponse> {
     const url = `/api/customers/${userId}`;
 
 
@@ -13,12 +13,16 @@ async function getSingleCustomerFromApi (userId: string): Promise<Customer> {
     )
 
     const { data } = await response.json();
+    const status = response.status;
 
-    return data;
+    return {
+      data,
+      status
   }
+}
 
 export {
-    getSingleCustomerFromApi
+  getSingleCustomerFromApi
 }
 
   

@@ -1,36 +1,40 @@
-import { InvoiceExtended } from "@/interfaces/server/invoice";
+import { InvoiceExtended, InvoiceServerResponse } from "@/interfaces/server/invoice";
 
 
-async function getSingleUserInvoicesFromApi (userId: string): Promise<InvoiceExtended[]> {
-    const url = `/api/invoices/${userId}?sortBy=number&sortOrder=asc`;
+async function getSingleUserInvoicesFromApi (userId: string): Promise<InvoiceServerResponse> {
+  const url = `/api/invoices/${userId}?sortBy=number&sortOrder=asc`;
 
-    const response = await fetch(
-     url,
-      {
-        method: "GET",
-        cache: "no-store"
-      }
-    )
+  const response = await fetch(
+    url,
+    {
+      method: "GET",
+      cache: "no-store"
+    }
+  )
 
-    const { invoices } = await response.json();
+  const { data } = await response.json();
+  const status = response.status;
 
-    return invoices;
-  }
+  return {
+    data, 
+    status
+  };
+}
 
 async function deleteSingleUserInvoiceFromApi (userId: string, invoiceId: string) {
-    const url = `/api/invoices/${userId}/${invoiceId}`;
+  const url = `/api/invoices/${userId}/${invoiceId}`;
 
-    const response = await fetch(
-     url,
-      {
-        method: "DELETE",
-      }
-    )
+  const response = await fetch(
+    url,
+    {
+      method: "DELETE",
+    }
+  )
 
-    const { status } = await response;
-    
-    return status;
-  }
+  const { status } = response;
+  
+  return status;
+}
 
 export {
   getSingleUserInvoicesFromApi,

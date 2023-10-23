@@ -6,7 +6,7 @@ import { getSingleCustomerFromApi } from "@/utils/client/customer/single-user-da
 import { deleteSingleUserInvoiceFromApi, getSingleUserInvoicesFromApi } from "@/utils/client/invoice/single-user-data-action";
 import { createContext, useCallback, useState } from "react";
 
-const CommonContext = createContext<ContextShareValues | null>(null);
+const CommonContext = createContext<ContextShareValues>({});
 
 function Provider({ children } ): React.ReactNode {
   const [userId, setUserId] = useState('5ac51f7e-81b1-49c6-9c39-78b2d171abd6');
@@ -22,13 +22,13 @@ function Provider({ children } ): React.ReactNode {
   );
 
   async function init() {
-    const customer = await getSingleCustomerFromApi(userId);
-    setCustomer(customer);
+    const customerResponse = await getSingleCustomerFromApi(userId);
+    setCustomer(customerResponse.data);
 
-    const invoices = await getSingleUserInvoicesFromApi(userId);
-    setInvoices([...invoices]);
+    const invoiceResponse = await getSingleUserInvoicesFromApi(userId);
+    setInvoices([...invoiceResponse.data]);
 
-    const statistics = generateStatistics(invoices);
+    const statistics = generateStatistics(invoiceResponse.data);
     setStatistics(statistics);
   };
 

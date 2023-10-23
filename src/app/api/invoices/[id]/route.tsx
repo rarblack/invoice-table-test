@@ -9,6 +9,7 @@ import {
 import { sort } from '@/helpers/server/common';
 
  import dataset from '@/database/invoice/dataset.json';
+import { InvoiceExtended } from '@/interfaces/server/invoice';
 
 function sortDataset(dataset: Invoice[], request: Request) {
 
@@ -29,21 +30,28 @@ function extractUserIdFromContext(context: ContextType): string {
   return id;
 }
 
+function prepareData(dataset: Invoice[]): InvoiceExtended[] {
+  const datasetUpdated = mapNewFieldsAndUpdateExistingValues(dataset);
+
+  return datasetUpdated;
+}
+
 async function GET(request: Request, context: ContextType): Promise<NextResponse> {
-  const userId = extractUserIdFromContext(context);
+  const userId: string = extractUserIdFromContext(context);
 
-  let { invoices } = dataset; 
+  const { invoices } = dataset; 
   
-  invoices = filterDatasetByUserId(invoices, userId);
+  const invoicesFiltered = filterDatasetByUserId(invoices, userId);
   
-  invoices = sortDataset(invoices, request);
+  const invoicesSorted = sortDataset(invoicesFiltered, request);
 
-  invoices = mapNewFieldsAndUpdateExistingValues(invoices);
-  
+  const data = prepareData(invoicesSorted);
+
+  const status: number = invoices ? 200: 400;
+
   return NextResponse.json(
-    { 
-      invoices
-    }
+    { data },
+    { status }
   );
 };
 

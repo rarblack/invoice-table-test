@@ -5,10 +5,13 @@ interface ParamType {
 interface ContextType {
   params: ParamType;
 };
-
+interface ServerResponse {
+  status: number;
+}
 
 export type { 
   ParamType, 
-  ContextType, 
+  ContextType,
+  ServerResponse, 
 };
   
