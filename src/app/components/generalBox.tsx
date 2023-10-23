@@ -1,10 +1,9 @@
 'use client';
 
-import { Box, Text, Image, Flex } from "@chakra-ui/react";
-import NextImage from "next/image";
+import { Box } from "@chakra-ui/react";
 
 interface GeneralBoxProps {
-  children: React.ReactNode;
+  children: React.ReactNode,
 }
 
 export const GeneralBox: React.FC<GeneralBoxProps> = ({children}) => {

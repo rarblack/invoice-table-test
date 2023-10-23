@@ -1,13 +1,9 @@
 import { faker } from '@faker-js/faker';
+import { Company } from '@/interfaces/database/company';
+import { Customer } from '@/interfaces/database/customer';
+import { Invoice, LineItem } from '@/interfaces/database/invoice';
 
-export interface Customer {
-  id: string;
-  name: string;
-  address: string;
-  email: string;
-  phone: string;
-}
-export const createCustomer = () : Customer => {
+const createCustomer = () : Customer => {
   return {
     id: faker.string.uuid(),
     name: faker.person.fullName(),
@@ -17,15 +13,7 @@ export const createCustomer = () : Customer => {
   }
 }
 
-interface Company {
-  id: string;
-  company: string;
-  logo: string;
-  address: string;
-  email: string;
-  phone: string;
-}
-export const createCompany = () : Company => {
+const createCompany = () : Company => {
   return {
     id: faker.string.uuid(),
     company: faker.company.name(),
@@ -36,13 +24,7 @@ export const createCompany = () : Company => {
   }
 }
 
-export interface LineItem {
-  title: string;
-  description: string;
-  price: number;
-  quantity: number;
-}
-export const createLineItem = () : LineItem => {
+const createLineItem = () : LineItem => {
   return {
     title: faker.commerce.productName(),
     description: faker.commerce.productDescription(),
@@ -51,18 +33,7 @@ export const createLineItem = () : LineItem => {
   }
 }
 
-export interface Invoice {
-  id: string;
-  number: number;
-  dateIssued: Date;
-  dateDue: Date;
-  settled: Boolean;
-  recipient: string;
-  patron: string;
-  items: LineItem[];
-  discount?: number;
-}
-export const createInvoice = (customer: string, company: string, lineItems: number): Invoice => {
+const createInvoice = (customer: string, company: string, lineItems: number): Invoice => {
   let items: LineItem[] = [];
 
   for (let i = 0; i < lineItems; i++) {
@@ -80,3 +51,10 @@ export const createInvoice = (customer: string, company: string, lineItems: numb
     items,
   }
 }
+
+export { 
+  createCustomer, 
+  createCompany, 
+  createLineItem, 
+  createInvoice 
+};
