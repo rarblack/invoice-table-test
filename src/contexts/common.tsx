@@ -1,4 +1,5 @@
 import { generateStatistics } from "@/helpers/client/invoice";
+import { ChildrenProps } from "@/interfaces/client/common";
 import { ContextShareValues, InvoiceStatistics } from "@/interfaces/client/invoice";
 import { Customer } from "@/interfaces/database/customer";
 import { InvoiceExtended } from "@/interfaces/server/invoice";
@@ -6,9 +7,9 @@ import { getSingleCustomerFromApi } from "@/utils/client/customer/single-user-da
 import { deleteSingleUserInvoiceFromApi, getSingleUserInvoicesFromApi } from "@/utils/client/invoice/single-user-data-action";
 import { createContext, useCallback, useState } from "react";
 
-const CommonContext = createContext<ContextShareValues>({});
+const CommonContext = createContext<ContextShareValues | null>(null);
 
-function Provider({ children } ): React.ReactNode {
+function Provider({ children }: ChildrenProps ): React.ReactElement {
   const [userId, setUserId] = useState('5ac51f7e-81b1-49c6-9c39-78b2d171abd6');
   const [customer, setCustomer] = useState<Customer | null>(null);
   const [invoices, setInvoices] = useState<InvoiceExtended[] | null>(null);
